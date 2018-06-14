@@ -4,6 +4,7 @@
 FROM opensuse:tumbleweed
 LABEL Description="openSUSE Tumbleweed with ROOT installed" Version="6.14"
 CMD bash
+SHELL ["/bin/bash", "-c"]
 
 # Build an environment setup script that works during docker build
 #
