@@ -65,6 +65,11 @@ RUN echo "source /usr/local/bin/thisroot.sh" >> "$SETUP_ENV"
 # Check that the ROOT install works
 RUN root -b -q -e "(6*7)-(6*7)"
 
-# Clean up to save image space
-RUN rm -rf ROOT                                                                \
-    && zypper clean
+# Get rid of the ROOT build directory to save up space
+RUN rm -rf ROOT
+
+
+# === FINAL CLEAN UP ===
+
+# Discard the system package cache to save up space
+RUN zypper clean
