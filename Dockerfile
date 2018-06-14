@@ -1,6 +1,27 @@
+# === DOCKER-SPECIFIC HACKERY ===
+
+# Configure the container's basic properties
 FROM opensuse:tumbleweed
-LABEL Description="openSUSE Tumbleweed with ROOT installed" Version="0.1"
+LABEL Description="openSUSE Tumbleweed with ROOT installed" Version="6.14"
 CMD bash
+
+# Build an environment setup script that works during docker build
+#
+# NOTE: This trickery is necessary because docker build commands are run in a
+#       shell which is neither a login shell nor an interactive shell, and
+#       cannot be easily turned into either. Which means that there is no clean
+#       entry point for running environment setup scripts in docker build.
+#
+RUN touch /root/setup_env.sh                                                   \
+    && echo "unset BASH_ENV" > /root/bash_env.sh                               \
+    && echo "source /root/setup_env.sh" >> /root/bash_env.sh                   \
+    && echo "source /root/setup_env.sh" >> /root/.bashrc
+ENV BASH_ENV="/root/bash_env.sh"                                               \
+    SETUP_ENV="/root/setup_env.sh"
+
+# By default, Docker runs commands in the root directory (/). It is cleaner and
+# more idiomatic to run them in our home directory (which is /root) instead.
+WORKDIR /root
 
 
 # === SYSTEM SETUP ===
@@ -15,30 +36,30 @@ RUN zypper in -y git cmake gcc-c++ gcc binutils xorg-x11-libX11-devel          \
                  pcre-devel Mesa glew-devel pkg-config libmysqlclient-devel    \
                  fftw3-devel libcfitsio-devel graphviz-devel                   \
                  libdns_sd avahi-compat-mDNSResponder-devel openldap2-devel    \
-                 python-devel libxml2-devel krb5-devel gsl-devel libqt4-devel  \
+                 python3-devel libxml2-devel krb5-devel gsl-devel libqt4-devel \
                  tbb-devel ftgl-devel gl2ps-devel lz4 liblz4-devel ninja tar   \
-                 glu-devel
+                 glu-devel python3-numpy python3-numpy-devel
 
 
 # === INSTALL ROOT ===
 
 # Clone the desired ROOT version
-RUN git clone --branch=v6-12-06 --single-branch                                \
+RUN git clone --branch=v6-14-00 --depth 1                                      \
     https://github.com/root-project/root.git ROOT
 
 # Configure a reasonably minimal build of ROOT
 RUN cd ROOT && mkdir build-dir && cd build-dir                                 \
     && cmake -GNinja -Dbuiltin_ftgl=OFF -Dbuiltin_glew=OFF -Dbuiltin_lz4=OFF   \
-             -Dcastor=OFF -Dcxx14=ON -Ddavix=OFF -Dfail-on-missing=ON          \
-             -Dgfal=OFF -Dgnuinstall=ON -Dhttp=OFF -Dmysql=OFF -Doracle=OFF    \
-             -Dpgsql=OFF -Dpythia6=OFF -Dpythia8=OFF -Droot7=ON -Dssl=OFF      \
-             -Dxrootd=OFF ..
+             -Dbuiltin_vdt=ON -Dbuiltin_xxhash=ON -Dcastor=OFF -Dcxx14=ON      \
+             -Ddavix=OFF -Dfail-on-missing=ON -Dgfal=OFF -Dgnuinstall=ON       \
+             -Dhttp=OFF -Dmysql=OFF -Doracle=OFF -Dpgsql=OFF -Dpythia6=OFF     \
+             -Dpythia8=OFF -Droot7=ON -Dssl=OFF -Dxrootd=OFF ..
 
 # Build and install ROOT
 RUN cd ROOT/build-dir && ninja && ninja install
 
-# Set up the environment for running ROOT
-ENV LD_LIBRARY_PATH /usr/local/lib/root/:${LD_LIBRARY_PATH}
+# Prepare the environment for running ROOT
+RUN echo "source /usr/local/bin/thisroot.sh" >> "$SETUP_ENV"
 
 # Check that the ROOT install works
 RUN root -b -q -e "(6*7)-(6*7)"
