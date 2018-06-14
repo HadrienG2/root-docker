@@ -50,10 +50,10 @@ RUN git clone --branch=v6-14-00 --depth 1                                      \
 # Configure a reasonably minimal build of ROOT
 RUN cd ROOT && mkdir build-dir && cd build-dir                                 \
     && cmake -GNinja -Dbuiltin_ftgl=OFF -Dbuiltin_glew=OFF -Dbuiltin_lz4=OFF   \
-             -Dbuiltin_vdt=ON -Dbuiltin_xxhash=ON -Dcastor=OFF -Dcxx14=ON      \
-             -Ddavix=OFF -Dfail-on-missing=ON -Dgfal=OFF -Dgnuinstall=ON       \
-             -Dhttp=OFF -Dmysql=OFF -Doracle=OFF -Dpgsql=OFF -Dpythia6=OFF     \
-             -Dpythia8=OFF -Droot7=ON -Dssl=OFF -Dxrootd=OFF ..
+             -Dbuiltin_xxhash=ON -Dcastor=OFF -Dcxx14=ON -Ddavix=OFF           \
+             -Dfail-on-missing=ON -Dgfal=OFF -Dgnuinstall=ON -Dhttp=OFF        \
+             -Dmysql=OFF -Doracle=OFF -Dpgsql=OFF -Dpythia6=OFF -Dpythia8=OFF  \
+             -Droot7=ON -Dssl=OFF -Dvdt=OFF -Dxrootd=OFF ..
 
 # Build and install ROOT
 RUN cd ROOT/build-dir && ninja && ninja install
