@@ -34,9 +34,9 @@ RUN zypper ref && zypper dup -y
 RUN zypper in -y git cmake gcc-c++ gcc binutils xorg-x11-libX11-devel          \
                  xorg-x11-libXpm-devel xorg-x11-devel xorg-x11-proto-devel     \
                  xorg-x11-libXext-devel gcc-fortran libopenssl-devel           \
-                 pcre-devel Mesa glew-devel pkg-config libmysqlclient-devel    \
-                 fftw3-devel libcfitsio-devel graphviz-devel                   \
-                 libdns_sd avahi-compat-mDNSResponder-devel openldap2-devel    \
+                 pcre-devel Mesa glew-devel libmysqlclient-devel fftw3-devel   \
+                 libcfitsio-devel graphviz-devel libdns_sd                     \
+                 avahi-compat-mDNSResponder-devel openldap2-devel              \
                  python3-devel libxml2-devel krb5-devel gsl-devel libqt4-devel \
                  tbb-devel ftgl-devel gl2ps-devel lz4 liblz4-devel ninja tar   \
                  glu-devel python3-numpy python3-numpy-devel
