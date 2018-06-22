@@ -37,9 +37,9 @@ RUN zypper in -y git cmake gcc-c++ gcc binutils xorg-x11-libX11-devel          \
                  pcre-devel Mesa glew-devel libmysqlclient-devel fftw3-devel   \
                  libcfitsio-devel graphviz-devel libdns_sd                     \
                  avahi-compat-mDNSResponder-devel openldap2-devel              \
-                 python3-devel libxml2-devel krb5-devel gsl-devel libqt4-devel \
+                 python2-devel libxml2-devel krb5-devel gsl-devel libqt4-devel \
                  tbb-devel ftgl-devel gl2ps-devel lz4 liblz4-devel ninja tar   \
-                 glu-devel python3-numpy python3-numpy-devel
+                 glu-devel python2-numpy python2-numpy-devel
 
 
 # === INSTALL ROOT ===
