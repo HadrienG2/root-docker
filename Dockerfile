@@ -54,7 +54,7 @@ RUN cd ROOT && mkdir build-dir && cd build-dir                                 \
              -Dbuiltin_xxhash=ON -Dcastor=OFF -Dcxx14=ON -Ddavix=OFF           \
              -Dfail-on-missing=ON -Dgfal=OFF -Dgnuinstall=ON -Dhttp=OFF        \
              -Dmysql=OFF -Doracle=OFF -Dpgsql=OFF -Dpythia6=OFF -Dpythia8=OFF  \
-             -Droot7=ON -Dssl=OFF -Dvdt=OFF -Dxrootd=OFF ..
+             -Droot7=ON -Dssl=ON -Dvdt=OFF -Dxrootd=OFF ..
 
 # Build and install ROOT
 RUN cd ROOT/build-dir && ninja && ninja install
