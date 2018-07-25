@@ -2,6 +2,7 @@
 FROM hgrasland/spack-tests
 LABEL Description="openSUSE Tumbleweed with ROOT installed" Version="6.14"
 CMD bash
+ARG ROOT_CXX_STANDARD=17
 
 # Switch to a development branch of Spack with an updated ROOT package
 #
@@ -14,9 +15,9 @@ RUN cd /opt/spack                                                              \
     && git checkout HadrienG2/new-root-recipe-fixes
 
 # Install a reasonably minimal version of ROOT
-RUN spack install root@6.14.00 cxxstd=17 -davix -examples -gdml -memstat       \
-                               -opengl +root7 +sqlite +ssl -tiff -tmva -unuran \
-                               -vdt -x -xml
+RUN spack install root@6.14.00 cxxstd=${ROOT_CXX_STANDARD} -davix -examples    \
+                               -gdml -memstat -opengl +root7 +sqlite +ssl      \
+                               -tiff -tmva -unuran -vdt -x -xml
 
 # Prepare the environment for running ROOT
 RUN echo "spack load root" >> "$SETUP_ENV"
