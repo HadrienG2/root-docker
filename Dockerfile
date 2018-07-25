@@ -14,10 +14,14 @@ RUN cd /opt/spack                                                              \
     && git fetch HadrienG2                                                     \
     && git checkout HadrienG2/new-root-recipe-fixes
 
-# Install a reasonably minimal version of ROOT
-RUN spack install root@6.14.00 cxxstd=${ROOT_CXX_STANDARD} -davix -examples    \
-                               -gdml -memstat -opengl +root7 +sqlite +ssl      \
-                               -tiff -tmva -unuran -vdt -x -xml
+# This is a minimal ROOT build Spack specification. We record it to an
+# environment variable so that clients can later use the same ROOT build.
+ENV ROOT_SPACK_SPEC="root@6.14.00 cxxstd=${ROOT_CXX_STANDARD} -davix -examples \
+                                  -gdml -memstat -opengl +root7 +sqlite +ssl   \
+                                  -tiff -tmva -unuran -vdt -x -xml"
+
+# Install ROOT
+RUN spack install ${ROOT_SPACK_SPEC}
 
 # Prepare the environment for running ROOT
 RUN echo "spack load root" >> "$SETUP_ENV"
