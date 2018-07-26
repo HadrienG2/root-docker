@@ -19,15 +19,17 @@ RUN cd /opt/spack                                                              \
 #
 # FIXME: In general, we would like to enable the GDML module. But it does not
 #        build in C++17 mode as of ROOT 6.14. Better luck next time!
+# FIXME: Once this is fixed, go back to Docker ENV statements as they are easier
+#        to reason about than the SETUP_ENV hack.
 #
-ENV ROOT_SPACK_SPEC="root@6.14.00 cxxstd=${ROOT_CXX_STANDARD} -davix -examples \
-                                  $( [ $ROOT_CXX_STANDARD == 17 ]              \
-                                     && echo '-gdml' || echo '+gdml' )         \
-                                  -memstat +opengl +root7 +sqlite +ssl -tiff   \
-                                  -tmva -unuran -vdt +x -xml"
+RUN GDML_VARIANT=`[ ${ROOT_CXX_STANDARD} == 17 ]                               \
+                            && echo '-gdml' || echo '+gdml'`                   \
+    && echo "export ROOT_SPACK_SPEC=\"root@6.14.00 cxxstd=${ROOT_CXX_STANDARD} \
+             -davix -examples ${GDML_VARIANT} -memstat +opengl +root7 +sqlite  \
+             +ssl -tiff -tmva -unuran -vdt +x -xml\"" >> "$SETUP_ENV"
 
 # Install ROOT
-RUN spack install ${ROOT_SPACK_SPEC}
+RUN echo "Installing $ROOT_SPACK_SPEC..." && spack install ${ROOT_SPACK_SPEC}
 
 # Prepare the environment for running ROOT
 RUN echo "spack load root" >> "$SETUP_ENV"
