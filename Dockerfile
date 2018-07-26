@@ -14,11 +14,17 @@ RUN cd /opt/spack                                                              \
     && git fetch HadrienG2                                                     \
     && git checkout HadrienG2/new-root-recipe-fixes
 
-# This is a minimal ROOT build Spack specification. We record it to an
+# This is a reasonably minimal ROOT Spack specification. We record it to an
 # environment variable so that clients can later use the same ROOT build.
+#
+# FIXME: In general, we would like to enable the GDML module. But it does not
+#        build in C++17 mode as of ROOT 6.14. Better luck next time!
+#
 ENV ROOT_SPACK_SPEC="root@6.14.00 cxxstd=${ROOT_CXX_STANDARD} -davix -examples \
-                                  -gdml -memstat -opengl +root7 +sqlite +ssl   \
-                                  -tiff -tmva -unuran -vdt -x -xml"
+                                  $( [ $ROOT_CXX_STANDARD == 17 ]              \
+                                     && echo '-gdml' || echo '+gdml' )         \
+                                  -memstat +opengl +root7 +sqlite +ssl -tiff   \
+                                  -tmva -unuran -vdt +x -xml"
 
 # Install ROOT
 RUN spack install ${ROOT_SPACK_SPEC}
