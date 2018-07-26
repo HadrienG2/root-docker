@@ -12,7 +12,7 @@ ARG ROOT_CXX_STANDARD=17
 RUN cd /opt/spack                                                              \
     && git remote add HadrienG2 https://github.com/HadrienG2/spack.git         \
     && git fetch HadrienG2                                                     \
-    && git checkout HadrienG2/new-root-recipe-fixes
+    && git checkout HadrienG2/new-root-recipe-updated
 
 # This is a reasonably minimal ROOT Spack specification. We record it to an
 # environment variable so that clients can later use the same ROOT build.
