@@ -29,10 +29,10 @@ RUN GDML_VARIANT=`[ ${ROOT_CXX_STANDARD} == 17 ]                               \
              +ssl -tiff -tmva -unuran -vdt +x -xml\"" >> "$SETUP_ENV"
 
 # Install ROOT
-RUN echo "Installing $ROOT_SPACK_SPEC..." && spack install ${ROOT_SPACK_SPEC}
+RUN echo "Installing ${ROOT_SPACK_SPEC}..." && spack install ${ROOT_SPACK_SPEC}
 
 # Prepare the environment for running ROOT
-RUN echo "spack load root" >> "$SETUP_ENV"
+RUN echo "spack load ${ROOT_SPACK_SPEC}" >> "$SETUP_ENV"
 
 # Check that the ROOT install works
 RUN root.exe -b -q -e "(6*7)-(6*7)"
