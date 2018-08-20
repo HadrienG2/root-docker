@@ -25,8 +25,8 @@ RUN cd /opt/spack                                                              \
 RUN GDML_VARIANT=`[ ${ROOT_CXX_STANDARD} == 17 ]                               \
                             && echo '-gdml' || echo '+gdml'`                   \
     && echo "export ROOT_SPACK_SPEC=\"root@6.14.00 cxxstd=${ROOT_CXX_STANDARD} \
-             -davix -examples ${GDML_VARIANT} -memstat +opengl +root7 +sqlite  \
-             +ssl -tiff -tmva -unuran -vdt +x -xml\"" >> "$SETUP_ENV"
+             -davix -examples ${GDML_VARIANT} -memstat +opengl +root7 +rpath   \
+             +sqlite +ssl -tiff -tmva -unuran -vdt +x -xml\"" >> "$SETUP_ENV"
 
 # Install ROOT
 RUN echo "Installing ${ROOT_SPACK_SPEC}..." && spack install ${ROOT_SPACK_SPEC}
