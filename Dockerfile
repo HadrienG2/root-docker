@@ -6,8 +6,7 @@ ARG ROOT_CXX_STANDARD=17
 
 # Switch to a development branch of Spack with an updated ROOT package
 #
-# FIXME: Switch to JavierCVilla's branch once it is fixed, and to upstream once
-#        JavierCVilla's work is integrated.
+# FIXME: Switch to upstream once JavierCVilla's work is integrated.
 #
 RUN cd /opt/spack                                                              \
     && git remote add HadrienG2 https://github.com/HadrienG2/spack.git         \
