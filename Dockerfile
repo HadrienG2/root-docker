@@ -4,15 +4,6 @@ LABEL Description="openSUSE Tumbleweed with ROOT installed" Version="6.14"
 CMD bash
 ARG ROOT_CXX_STANDARD=17
 
-# Switch to a development branch of Spack with an updated ROOT package
-#
-# FIXME: Switch to upstream once JavierCVilla's work is integrated.
-#
-RUN cd /opt/spack                                                              \
-    && git remote add HadrienG2 https://github.com/HadrienG2/spack.git         \
-    && git fetch HadrienG2                                                     \
-    && git checkout HadrienG2/new-root-recipe-fixes
-
 # This is a reasonably minimal ROOT Spack specification. We record it to an
 # environment variable so that clients can later use the same ROOT build.
 #
