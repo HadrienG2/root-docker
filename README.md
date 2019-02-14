@@ -1,3 +1,3 @@
-Dockerfile with a basic installation of [ROOT](https://root.cern.ch/).
+This repository is being superseded by a new unified repository containing all of my Spack-based Docker builds!
 
-You can find a pre-built image on the Docker Hub called hgrasland/root-tests.
+Find it at https://github.com/HadrienG2/spack-based-docker .
